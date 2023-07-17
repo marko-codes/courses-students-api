@@ -28,6 +28,13 @@ public class CourseController {
 
     }
 
+    @DeleteMapping("/removeCourse/{id}")
+    public ResponseEntity<Course> removeCourse(@PathVariable("id") Long id){
+
+        return courseService.removeCourse(id);
+
+    }
+
     @GetMapping
     public ResponseEntity<List<Course>> getAllCourses(){
 

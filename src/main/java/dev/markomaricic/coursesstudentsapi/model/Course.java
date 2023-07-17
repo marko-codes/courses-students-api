@@ -1,11 +1,10 @@
 package dev.markomaricic.coursesstudentsapi.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -15,6 +14,7 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
+@JsonIgnoreProperties("students")
 public class Course {
 
     @Id
@@ -30,7 +30,6 @@ public class Course {
     private double fee;
 
     @ManyToMany(mappedBy = "courses", fetch = FetchType.LAZY)
-    @JsonBackReference
     private Set<Student> students;
 
 }

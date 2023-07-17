@@ -1,7 +1,9 @@
 package dev.markomaricic.coursesstudentsapi.controller;
 
+import dev.markomaricic.coursesstudentsapi.exception.CourseAssignmentException;
 import dev.markomaricic.coursesstudentsapi.model.Student;
 import dev.markomaricic.coursesstudentsapi.service.StudentService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +16,7 @@ public class StudentController {
 
     private final StudentService studentService;
 
+    @Autowired
     public StudentController(StudentService studentService){
 
         this.studentService = studentService;
@@ -21,11 +24,26 @@ public class StudentController {
     }
 
     @PostMapping("/addStudent")
-    public ResponseEntity<Student> saveStudentWithCourse(@RequestBody Student student){
+    public ResponseEntity<Student> addStudent(@RequestBody Student student){
 
-        return studentService.saveStudentAndCourse(student);
+        return studentService.addStudent(student);
 
     }
+
+    @PostMapping("/assignCourseToStudent/{sid}/{cid}")
+    public List<ResponseEntity<Student>> assignCourseToStudent(@PathVariable("sid") Long studentId, @PathVariable("cid") List<Long> coursesId) throws CourseAssignmentException {
+
+        return studentService.assignCourseToStudent(studentId, coursesId);
+
+    }
+
+    @DeleteMapping("/removeStudent/{id}")
+    public ResponseEntity<Student> removeStudent(@PathVariable("id") Long id){
+
+        return studentService.removeStudent(id);
+
+    }
+
 
     @GetMapping
     public ResponseEntity<List<Student>> getAllStudents(){
